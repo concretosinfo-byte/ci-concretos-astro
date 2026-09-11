@@ -1,8 +1,17 @@
 # Cotizador de WhatsApp para CI Concretos
 
-Servicio que recibe mensajes de WhatsApp (Cloud API de Meta), conduce una
-conversacion para capturar los datos de la obra y crea la cotizacion
-(Estimate) en Zoho Books.
+Servicio que recibe mensajes de WhatsApp (Cloud API de Meta), conversa con el
+cliente mediante IA para capturar los datos de la obra y crea la cotizacion
+(Estimate) **en borrador** en Zoho Books. Un asesor valida la cotizacion en
+Zoho y, al aprobarla, un webhook la envia de vuelta al cliente por WhatsApp.
+
+```
+cliente -> WhatsApp -> IA conversacional -> borrador en Zoho Books
+                                              |
+                                     revision del asesor
+                                              |
+           cliente <- WhatsApp <- webhook /webhook/zoho/estimate-approved
+```
 
 ## Requisitos
 
@@ -25,23 +34,44 @@ Endpoints:
 - `GET /health` — verificacion de vida
 - `GET /webhook/whatsapp` — handshake de verificacion de Meta
 - `POST /webhook/whatsapp` — recepcion de mensajes (valida `X-Hub-Signature-256`)
+- `POST /webhook/zoho/estimate-approved` — envia al cliente la cotizacion ya
+  revisada (valida la cabecera `x-webhook-token` contra `ZOHO_WEBHOOK_TOKEN`)
 
 Para probar en local expon el puerto con un tunel (ngrok, cloudflared) y
 registra `https://<tunel>/webhook/whatsapp` como Callback URL en la app de
 Meta, usando `WHATSAPP_VERIFY_TOKEN` como Verify Token.
 
-## Flujo de la conversacion
+## Conversacion con IA
 
-1. Saludo y nombre del cliente o empresa
-2. Seleccion de producto del catalogo (`src/quote/catalog.ts`)
-3. Cantidad en m3 (valida el pedido minimo por producto)
-4. Fecha de entrega (`DD/MM/AAAA`, `hoy`, `manana`)
-5. Direccion de la obra
-6. Resumen y confirmacion (`SI` / `NO`)
-7. Creacion del contacto (si no existe) y de la cotizacion en Zoho Books,
-   con el numero de cotizacion devuelto por WhatsApp
+Con `OPENAI_API_KEY` configurada, la conversacion la conduce un modelo
+(`src/ai/agent.ts`) que responde en espanol, solo puede ofrecer productos del
+catalogo y devuelve los campos extraidos en JSON. El servicio valida esos
+campos antes de usarlos: el producto debe existir en el catalogo, la cantidad
+debe cumplir el pedido minimo y la fecha debe ser valida.
 
-En cualquier momento el cliente puede escribir `cancelar` para reiniciar.
+Sin `OPENAI_API_KEY` (o si la llamada al modelo falla) se usa automaticamente
+el flujo guiado por menus de `src/quote/flow.ts`, que pide en orden: nombre,
+producto, cantidad, fecha, direccion y confirmacion. En cualquier momento el
+cliente puede escribir `cancelar` para reiniciar.
+
+## Revision antes de enviar
+
+La cotizacion se crea en Zoho Books como borrador con
+`reference_number = WA-<telefono>`; al cliente solo se le confirma el folio.
+Cuando el asesor valida los datos en Zoho, Zoho Books dispara el webhook
+`POST /webhook/zoho/estimate-approved` (Settings > Automation > Webhooks, con
+la cabecera `x-webhook-token`). El servicio relee la cotizacion desde la API,
+saca el telefono del `reference_number` y envia al cliente el folio, el total
+y el enlace de la cotizacion.
+
+El mismo endpoint sirve para disparar el envio manualmente:
+
+```bash
+curl -X POST https://<tu-host>/webhook/zoho/estimate-approved \
+  -H 'Content-Type: application/json' \
+  -H "x-webhook-token: $ZOHO_WEBHOOK_TOKEN" \
+  -d '{"estimate_id":"1234567890"}'
+```
 
 ## Precios y productos
 

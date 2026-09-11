@@ -18,6 +18,7 @@ const env = {
   ZOHO_CLIENT_SECRET: 'client-secret',
   ZOHO_REFRESH_TOKEN: 'refresh-token',
   ZOHO_ORGANIZATION_ID: '99999',
+  ZOHO_WEBHOOK_TOKEN: 'webhook-token',
 };
 
 const config = loadConfig(env as NodeJS.ProcessEnv);
@@ -39,6 +40,15 @@ function startServer() {
         estimateNumber: 'EST-0001',
         total: 100,
         status: 'draft',
+      })),
+      getEstimate: vi.fn(async (estimateId: string) => ({
+        estimateId,
+        estimateNumber: 'EST-0001',
+        total: 35100,
+        status: 'sent',
+        referenceNumber: 'WA-5215512345678',
+        customerName: 'Constructora Delta',
+        estimateUrl: 'https://books.zoho.com/estimate/abc',
       })),
     },
   });
@@ -114,6 +124,35 @@ describe('webhook de WhatsApp', () => {
     await vi.waitFor(() => expect(sent.length).toBeGreaterThan(0));
     expect(sent[0]?.to).toBe('5215512345678');
     expect(sent[0]?.body).toContain('CI Concretos');
+  });
+});
+
+describe('webhook de aprobacion de Zoho', () => {
+  it('rechaza llamadas sin el token compartido', async () => {
+    const { server, port } = startServer();
+    running = server;
+    const response = await fetch(`http://127.0.0.1:${port}/webhook/zoho/estimate-approved`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ estimate_id: '1' }),
+    });
+    expect(response.status).toBe(401);
+  });
+
+  it('envia la cotizacion aprobada al telefono del reference_number', async () => {
+    const { server, port, sent } = startServer();
+    running = server;
+    const response = await fetch(`http://127.0.0.1:${port}/webhook/zoho/estimate-approved`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'x-webhook-token': 'webhook-token' },
+      body: JSON.stringify({ estimate: { estimate_id: '1' } }),
+    });
+    expect(response.status).toBe(202);
+
+    await vi.waitFor(() => expect(sent.length).toBeGreaterThan(0));
+    expect(sent[0]?.to).toBe('5215512345678');
+    expect(sent[0]?.body).toContain('EST-0001');
+    expect(sent[0]?.body).toContain('https://books.zoho.com/estimate/abc');
   });
 });
 

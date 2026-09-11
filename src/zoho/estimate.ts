@@ -15,6 +15,11 @@ export interface EstimatePayload {
   }>;
 }
 
+export function phoneFromReference(referenceNumber: string): string | undefined {
+  const match = /^WA-(\d{8,15})$/.exec(referenceNumber.trim());
+  return match?.[1];
+}
+
 export function buildEstimatePayload(quote: CompletedQuote, customerId: string): EstimatePayload {
   return {
     customer_id: customerId,

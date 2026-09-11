@@ -10,8 +10,19 @@ export interface CreatedEstimate {
   status: string;
 }
 
+export interface EstimateDetails {
+  estimateId: string;
+  estimateNumber: string;
+  total: number;
+  status: string;
+  referenceNumber: string;
+  customerName: string;
+  estimateUrl?: string;
+}
+
 export interface ZohoClient {
   createEstimateForQuote(quote: CompletedQuote): Promise<CreatedEstimate>;
+  getEstimate(estimateId: string): Promise<EstimateDetails>;
 }
 
 interface TokenCache {
@@ -115,6 +126,30 @@ export function createZohoClient(config: Config, logger: Logger): ZohoClient {
         estimateNumber: created.estimate.estimate_number,
         total: created.estimate.total,
         status: created.estimate.status,
+      };
+    },
+
+    async getEstimate(estimateId) {
+      const fetched = await booksRequest<{
+        estimate: {
+          estimate_id: string;
+          estimate_number: string;
+          total: number;
+          status: string;
+          reference_number?: string;
+          customer_name?: string;
+          estimate_url?: string;
+        };
+      }>(`/estimates/${encodeURIComponent(estimateId)}`, { method: 'GET' });
+
+      return {
+        estimateId: fetched.estimate.estimate_id,
+        estimateNumber: fetched.estimate.estimate_number,
+        total: fetched.estimate.total,
+        status: fetched.estimate.status,
+        referenceNumber: fetched.estimate.reference_number ?? '',
+        customerName: fetched.estimate.customer_name ?? '',
+        estimateUrl: fetched.estimate.estimate_url,
       };
     },
   };

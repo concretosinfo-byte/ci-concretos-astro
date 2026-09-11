@@ -16,6 +16,13 @@ const envSchema = z.object({
   ZOHO_ORGANIZATION_ID: z.string().min(1),
   ZOHO_ACCOUNTS_DOMAIN: z.string().default('https://accounts.zoho.com'),
   ZOHO_API_DOMAIN: z.string().default('https://www.zohoapis.com'),
+  ZOHO_WEBHOOK_TOKEN: z.string().min(1),
+
+  OPENAI_API_KEY: z.string().optional(),
+  OPENAI_BASE_URL: z.string().default('https://api.openai.com/v1'),
+  OPENAI_MODEL: z.string().default('gpt-4o-mini'),
+
+  COMPANY_NAME: z.string().default('CI Concretos'),
 
   QUOTE_CURRENCY_SYMBOL: z.string().default('$'),
   QUOTE_SESSION_TTL_MINUTES: z.coerce.number().default(60),

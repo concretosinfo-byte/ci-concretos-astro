@@ -18,10 +18,16 @@ export interface QuoteDraft {
   address?: string;
 }
 
+export interface ConversationTurn {
+  role: 'user' | 'assistant';
+  content: string;
+}
+
 export interface QuoteSession {
   phone: string;
   state: QuoteState;
   draft: QuoteDraft;
+  history: ConversationTurn[];
   updatedAt: number;
 }
 
@@ -50,7 +56,7 @@ const RESTART_WORDS = ['hola', 'menu', 'menú', 'cotizar', 'inicio', 'reiniciar'
 const CANCEL_WORDS = ['cancelar', 'salir', 'terminar'];
 
 export function newSession(phone: string, now: Date = new Date()): QuoteSession {
-  return { phone, state: 'start', draft: {}, updatedAt: now.getTime() };
+  return { phone, state: 'start', draft: {}, history: [], updatedAt: now.getTime() };
 }
 
 export function parseDate(input: string, now: Date): string | undefined {
@@ -128,6 +134,7 @@ export function handleMessage(
   const next: QuoteSession = {
     ...session,
     draft: { ...session.draft },
+    history: [...session.history],
     updatedAt: now.getTime(),
   };
 
