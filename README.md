@@ -73,6 +73,27 @@ curl -X POST https://<tu-host>/webhook/zoho/estimate-approved \
   -d '{"estimate_id":"1234567890"}'
 ```
 
+## Despliegue 24/7
+
+El asesor virtual debe estar siempre escuchando: WhatsApp entrega los mensajes
+por webhook y los descarta si el endpoint no responde. Cualquier host con
+HTTPS publico y reinicio automatico sirve.
+
+Con Docker:
+
+```bash
+cp .env.example .env   # completa las credenciales
+docker compose up -d --build
+```
+
+El contenedor expone el puerto 3000, se reinicia solo (`restart: always`) y
+tiene healthcheck contra `/health`. Publica el servicio detras de HTTPS
+(Caddy, Nginx o el proxy de tu PaaS) y registra la URL publica
+`https://<dominio>/webhook/whatsapp` en la app de Meta.
+
+Las sesiones de conversacion viven en memoria, asi que ejecuta una sola
+instancia o cambia `SessionStore` por Redis antes de escalar horizontalmente.
+
 ## Precios y productos
 
 El catalogo vive en `src/quote/catalog.ts`: SKU, nombre, descripcion, unidad,
