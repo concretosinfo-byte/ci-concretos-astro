@@ -1,0 +1,43 @@
+{
+  "name": "CI CONCRETOS SAS",
+  "short_name": "CI Concretos",
+  "description": "Concreto premezclado, obras civiles y estructuras metálicas con cobertura nacional en Colombia.",
+  "lang": "es-CO",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "orientation": "portrait",
+  "theme_color": "#0F172A",
+  "background_color": "#0F172A",
+  "categories": ["business", "productivity"],
+  "icons": [
+    {
+      "src": "/icons/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/icons/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/icons/icon-maskable-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "Cotizar concreto",
+      "url": "/cotizar"
+    },
+    {
+      "name": "Contacto",
+      "url": "/contacto"
+    }
+  ]
+}
