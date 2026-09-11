@@ -1,0 +1,46 @@
+{
+  "expo": {
+    "name": "CI Concretos",
+    "slug": "ci-concretos",
+    "scheme": "ciconcretos",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "icon": "./assets/icon.png",
+    "userInterfaceStyle": "light",
+    "primaryColor": "#F59E0B",
+    "description": "Concreto premezclado, obras civiles y estructuras metálicas con cobertura nacional en Colombia.",
+    "ios": {
+      "supportsTablet": true,
+      "bundleIdentifier": "com.ciconcretos.app",
+      "infoPlist": {
+        "CFBundleDisplayName": "CI Concretos",
+        "LSApplicationQueriesSchemes": ["tel", "mailto", "whatsapp"]
+      }
+    },
+    "android": {
+      "package": "com.ciconcretos.app",
+      "adaptiveIcon": {
+        "backgroundColor": "#FFFFFF",
+        "foregroundImage": "./assets/android-icon-foreground.png",
+        "backgroundImage": "./assets/android-icon-background.png",
+        "monochromeImage": "./assets/android-icon-monochrome.png"
+      },
+      "predictiveBackGestureEnabled": false
+    },
+    "web": {
+      "bundler": "metro",
+      "output": "static",
+      "favicon": "./assets/favicon.png",
+      "name": "CI Concretos SAS",
+      "shortName": "CI Concretos",
+      "themeColor": "#FFFFFF",
+      "backgroundColor": "#F5F7FA",
+      "display": "standalone",
+      "lang": "es-CO"
+    },
+    "plugins": ["expo-router", "expo-status-bar"],
+    "experiments": {
+      "typedRoutes": true
+    }
+  }
+}
