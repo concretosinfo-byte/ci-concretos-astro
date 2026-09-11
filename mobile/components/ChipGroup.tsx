@@ -36,16 +36,16 @@ const styles = StyleSheet.create({
     gap: spacing.sm,
   },
   chip: {
-    backgroundColor: colors.surfaceAlt,
+    backgroundColor: colors.surface,
     borderColor: colors.border,
-    borderRadius: radius.lg,
+    borderRadius: radius.pill,
     borderWidth: 1,
     paddingHorizontal: spacing.md,
-    paddingVertical: spacing.sm,
+    paddingVertical: spacing.sm + 2,
   },
   chipSelected: {
-    backgroundColor: colors.primary,
-    borderColor: colors.primary,
+    backgroundColor: colors.navy,
+    borderColor: colors.navy,
   },
   chipLabel: {
     color: colors.textMuted,
@@ -53,6 +53,6 @@ const styles = StyleSheet.create({
     fontWeight: '600',
   },
   chipLabelSelected: {
-    color: colors.onPrimary,
+    color: colors.textOnDark,
   },
 });

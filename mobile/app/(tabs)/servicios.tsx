@@ -1,9 +1,10 @@
 import { useLocalSearchParams } from 'expo-router';
-import { ScrollView, StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, Text, View } from 'react-native';
 
-import { Bullet, Button, Card } from '../../components/ui';
+import { Badge, Bullet, Button, Card, PageHeader, Screen } from '../../components/ui';
 import { services } from '../../constants/company';
-import { colors, spacing } from '../../constants/theme';
+import { media, serviceImages } from '../../constants/media';
+import { colors, spacing, typography } from '../../constants/theme';
 import { openWhatsApp } from '../../lib/contact';
 
 export default function ServicesScreen() {
@@ -13,53 +14,51 @@ export default function ServicesScreen() {
     : services;
 
   return (
-    <ScrollView contentContainerStyle={styles.content}>
-      <Text style={styles.intro}>
-        Coordinamos suministro, ejecución civil y estructuras metálicas bajo un modelo integral que
-        prioriza cumplimiento y control de calidad en cada fase del proyecto.
-      </Text>
-      {ordered.map((service) => (
-        <Card key={service.slug}>
-          <Text style={styles.title}>{service.title}</Text>
-          <Text style={styles.summary}>{service.summary}</Text>
-          <View style={styles.bullets}>
-            {service.details.map((detail) => (
-              <Bullet key={detail}>{detail}</Bullet>
-            ))}
-          </View>
-          <Button
-            label={`Consultar ${service.title.toLowerCase()}`}
-            icon="logo-whatsapp"
-            variant="outline"
-            onPress={() => openWhatsApp(`Hola, necesito información sobre ${service.title}.`)}
-          />
-        </Card>
-      ))}
-    </ScrollView>
+    <Screen>
+      <PageHeader
+        image={media.hero}
+        kicker="Servicios"
+        title="Suministro, obra civil y estructuras metálicas"
+        subtitle="Modelo integral que prioriza cumplimiento y control de calidad en cada fase del proyecto."
+      />
+
+      <View style={styles.list}>
+        {ordered.map((service) => (
+          <Card key={service.slug} image={serviceImages[service.slug]}>
+            {service.slug === servicio ? <Badge tone="amber">Seleccionado</Badge> : null}
+            <Text style={styles.title}>{service.title}</Text>
+            <Text style={styles.summary}>{service.summary}</Text>
+            <View style={styles.bullets}>
+              {service.details.map((detail) => (
+                <Bullet key={detail}>{detail}</Bullet>
+              ))}
+            </View>
+            <Button
+              label={`Consultar ${service.title.toLowerCase()}`}
+              icon="logo-whatsapp"
+              variant="whatsapp"
+              onPress={() => openWhatsApp(`Hola, necesito información sobre ${service.title}.`)}
+            />
+          </Card>
+        ))}
+      </View>
+    </Screen>
   );
 }
 
 const styles = StyleSheet.create({
-  content: {
-    backgroundColor: colors.background,
+  list: {
     gap: spacing.md,
     padding: spacing.md,
-    paddingBottom: spacing.xl,
-  },
-  intro: {
-    color: colors.textMuted,
-    fontSize: 15,
-    lineHeight: 22,
   },
   title: {
+    ...typography.cardTitle,
     color: colors.text,
     fontSize: 19,
-    fontWeight: '700',
   },
   summary: {
+    ...typography.small,
     color: colors.textMuted,
-    fontSize: 14,
-    lineHeight: 20,
   },
   bullets: {
     gap: spacing.sm,

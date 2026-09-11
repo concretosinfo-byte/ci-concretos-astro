@@ -1,84 +1,82 @@
-import { ScrollView, StyleSheet, Text, View } from 'react-native';
+import { Ionicons } from '@expo/vector-icons';
+import { StyleSheet, Text, View } from 'react-native';
 
-import { Button, Card } from '../../components/ui';
+import { Button, Card, PageHeader, Screen, Section } from '../../components/ui';
 import { cities } from '../../constants/company';
-import { colors, radius, spacing } from '../../constants/theme';
+import { media } from '../../constants/media';
+import { colors, radius, spacing, typography } from '../../constants/theme';
 import { openWhatsApp } from '../../lib/contact';
 
 export default function CoverageScreen() {
   return (
-    <ScrollView contentContainerStyle={styles.content}>
-      <Text style={styles.intro}>
-        Coordinación activa en las principales ciudades del país y suministro programado en otros
-        municipios según requerimiento del proyecto.
-      </Text>
+    <Screen>
+      <PageHeader
+        image={media.contact}
+        kicker="Cobertura"
+        title="Operación coordinada en todo el país"
+        subtitle="Capacidad logística para atender múltiples ciudades con programación estructurada."
+      />
 
-      <View style={styles.grid}>
-        {cities.map((city) => (
-          <View key={city} style={styles.city}>
-            <Text style={styles.cityName}>{city}</Text>
-          </View>
-        ))}
-      </View>
+      <Section kicker="Ciudades" title="Principales ciudades atendidas">
+        <View style={styles.grid}>
+          {cities.map((city) => (
+            <View key={city} style={styles.city}>
+              <Ionicons name="location" size={16} color={colors.primary} />
+              <Text style={styles.cityName}>{city}</Text>
+            </View>
+          ))}
+        </View>
 
-      <Card>
-        <Text style={styles.title}>¿Su obra está en otra ciudad?</Text>
-        <Text style={styles.text}>
-          Evaluamos accesos, distancia de planta y programación para confirmar cobertura y tiempos
-          de despacho.
-        </Text>
-        <Button
-          label="Consultar cobertura"
-          icon="logo-whatsapp"
-          variant="outline"
-          onPress={() =>
-            openWhatsApp('Hola, quiero confirmar si tienen cobertura en la ciudad de mi obra.')
-          }
-        />
-      </Card>
-    </ScrollView>
+        <Card>
+          <Text style={styles.title}>¿Su obra está en otra ciudad?</Text>
+          <Text style={styles.text}>
+            Evaluamos accesos, distancia de planta y programación para confirmar cobertura y tiempos
+            de despacho en cualquier municipio del país.
+          </Text>
+          <Button
+            label="Consultar cobertura"
+            icon="logo-whatsapp"
+            variant="whatsapp"
+            onPress={() =>
+              openWhatsApp('Hola, quiero confirmar si tienen cobertura en la ciudad de mi obra.')
+            }
+          />
+        </Card>
+      </Section>
+    </Screen>
   );
 }
 
 const styles = StyleSheet.create({
-  content: {
-    backgroundColor: colors.background,
-    gap: spacing.md,
-    padding: spacing.md,
-    paddingBottom: spacing.xl,
-  },
-  intro: {
-    color: colors.textMuted,
-    fontSize: 15,
-    lineHeight: 22,
-  },
   grid: {
     flexDirection: 'row',
     flexWrap: 'wrap',
     gap: spacing.sm,
   },
   city: {
+    alignItems: 'center',
     backgroundColor: colors.surface,
     borderColor: colors.border,
     borderRadius: radius.md,
     borderWidth: 1,
     flexBasis: '47%',
+    flexDirection: 'row',
     flexGrow: 1,
-    padding: spacing.md,
+    gap: spacing.sm,
+    paddingHorizontal: spacing.md,
+    paddingVertical: spacing.md,
   },
   cityName: {
     color: colors.text,
-    fontSize: 16,
+    fontSize: 15,
     fontWeight: '700',
   },
   title: {
+    ...typography.cardTitle,
     color: colors.text,
-    fontSize: 17,
-    fontWeight: '700',
   },
   text: {
+    ...typography.small,
     color: colors.textMuted,
-    fontSize: 14,
-    lineHeight: 20,
   },
 });

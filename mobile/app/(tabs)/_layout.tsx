@@ -1,18 +1,38 @@
 import { Ionicons } from '@expo/vector-icons';
 import { Tabs } from 'expo-router';
+import { Image, StyleSheet, View } from 'react-native';
 
-import { colors } from '../../constants/theme';
+import { media } from '../../constants/media';
+import { colors, spacing } from '../../constants/theme';
+
+function BrandMark() {
+  return (
+    <View style={styles.brand}>
+      <Image source={media.logo} style={styles.logo} resizeMode="contain" />
+    </View>
+  );
+}
 
 export default function TabsLayout() {
   return (
     <Tabs
       screenOptions={{
-        headerStyle: { backgroundColor: colors.background },
-        headerTintColor: colors.text,
+        headerStyle: { backgroundColor: colors.surface },
+        headerTintColor: colors.navy,
+        headerTitleStyle: { fontWeight: '800' },
+        headerShadowVisible: false,
+        headerRight: () => <BrandMark />,
         sceneStyle: { backgroundColor: colors.background },
-        tabBarActiveTintColor: colors.primary,
+        tabBarActiveTintColor: colors.brand,
         tabBarInactiveTintColor: colors.textMuted,
-        tabBarStyle: { backgroundColor: colors.surface, borderTopColor: colors.border },
+        tabBarLabelStyle: { fontSize: 11, fontWeight: '700' },
+        tabBarStyle: {
+          backgroundColor: colors.surface,
+          borderTopColor: colors.border,
+          height: 62,
+          paddingBottom: 8,
+          paddingTop: 6,
+        },
       }}
     >
       <Tabs.Screen
@@ -54,3 +74,13 @@ export default function TabsLayout() {
     </Tabs>
   );
 }
+
+const styles = StyleSheet.create({
+  brand: {
+    paddingRight: spacing.md,
+  },
+  logo: {
+    height: 30,
+    width: 96,
+  },
+});

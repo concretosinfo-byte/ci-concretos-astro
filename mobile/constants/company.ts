@@ -18,6 +18,29 @@ export const stats = [
   { value: '8+', label: 'Ciudades coordinadas' },
 ] as const;
 
+export const highlights = [
+  {
+    icon: 'time-outline',
+    title: 'Suministro programado',
+    text: 'Entregas parciales y volúmenes escalonados según el avance de obra.',
+  },
+  {
+    icon: 'shield-checkmark-outline',
+    title: 'Control de calidad',
+    text: 'Diseño de mezcla validado por resistencia, asentamiento y fraguado.',
+  },
+  {
+    icon: 'people-outline',
+    title: 'Equipo técnico',
+    text: 'Ingenieros y personal operativo especializado en obra estructural.',
+  },
+  {
+    icon: 'map-outline',
+    title: 'Cobertura nacional',
+    text: 'Coordinación logística en las principales ciudades del país.',
+  },
+] as const;
+
 export type Service = {
   slug: string;
   title: string;

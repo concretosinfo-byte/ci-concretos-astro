@@ -1,10 +1,11 @@
 import { useMemo, useState } from 'react';
-import { KeyboardAvoidingView, Platform, ScrollView, StyleSheet, Text, TextInput, View } from 'react-native';
+import { KeyboardAvoidingView, Platform, StyleSheet, Text, TextInput, View } from 'react-native';
 
 import { ChipGroup } from '../../components/ChipGroup';
-import { Button } from '../../components/ui';
+import { Button, Card, PageHeader, Screen } from '../../components/ui';
 import { cities, company, concreteTypes, strengths } from '../../constants/company';
-import { colors, radius, spacing } from '../../constants/theme';
+import { media } from '../../constants/media';
+import { colors, radius, spacing, typography } from '../../constants/theme';
 import { emailCompany, openWhatsApp } from '../../lib/contact';
 
 type Field = {
@@ -59,58 +60,74 @@ export default function QuoteScreen() {
       behavior={Platform.OS === 'ios' ? 'padding' : undefined}
       style={styles.flex}
     >
-      <ScrollView contentContainerStyle={styles.content} keyboardShouldPersistTaps="handled">
-        <Text style={styles.intro}>
-          Complete los datos del proyecto y envíe la solicitud. Un asesor técnico responde con la
-          programación y el valor estimado del despacho.
-        </Text>
+      <Screen keyboardShouldPersistTaps="handled">
+        <PageHeader
+          image={media.contact}
+          kicker="Cotizador"
+          title="Solicite su cotización técnica"
+          subtitle="Un asesor responde con programación de despacho y valor estimado."
+        />
 
-        <View style={styles.group}>
-          <Text style={styles.label}>Ciudad del proyecto</Text>
-          <ChipGroup options={cities} value={city} onChange={setCity} />
-        </View>
+        <View style={styles.body}>
+          <Card>
+            <Text style={styles.step}>1. Especificación técnica</Text>
+            <View style={styles.group}>
+              <Text style={styles.label}>Ciudad del proyecto</Text>
+              <ChipGroup options={cities} value={city} onChange={setCity} />
+            </View>
+            <View style={styles.group}>
+              <Text style={styles.label}>Tipo de concreto</Text>
+              <ChipGroup options={concreteTypes} value={type} onChange={setType} />
+            </View>
+            <View style={styles.group}>
+              <Text style={styles.label}>Resistencia</Text>
+              <ChipGroup options={strengths} value={strength} onChange={setStrength} />
+            </View>
+          </Card>
 
-        <View style={styles.group}>
-          <Text style={styles.label}>Tipo de concreto</Text>
-          <ChipGroup options={concreteTypes} value={type} onChange={setType} />
-        </View>
+          <Card>
+            <Text style={styles.step}>2. Datos de la obra</Text>
+            {fields.map((field) => (
+              <View key={field.label} style={styles.group}>
+                <Text style={styles.label}>{field.label}</Text>
+                <TextInput
+                  value={field.value}
+                  onChangeText={field.onChangeText}
+                  placeholder={field.placeholder}
+                  placeholderTextColor="#94A3B8"
+                  keyboardType={field.keyboardType ?? 'default'}
+                  multiline={field.multiline}
+                  style={[styles.input, field.multiline && styles.inputMultiline]}
+                />
+              </View>
+            ))}
+          </Card>
 
-        <View style={styles.group}>
-          <Text style={styles.label}>Resistencia</Text>
-          <ChipGroup options={strengths} value={strength} onChange={setStrength} />
-        </View>
-
-        {fields.map((field) => (
-          <View key={field.label} style={styles.group}>
-            <Text style={styles.label}>{field.label}</Text>
-            <TextInput
-              value={field.value}
-              onChangeText={field.onChangeText}
-              placeholder={field.placeholder}
-              placeholderTextColor={colors.textMuted}
-              keyboardType={field.keyboardType ?? 'default'}
-              multiline={field.multiline}
-              style={[styles.input, field.multiline && styles.inputMultiline]}
+          <Card>
+            <Text style={styles.step}>3. Resumen del envío</Text>
+            <View style={styles.preview}>
+              <Text style={styles.previewText}>{message}</Text>
+            </View>
+            {missing ? (
+              <Text style={styles.hint}>
+                Indique al menos su nombre y el volumen estimado para agilizar la respuesta.
+              </Text>
+            ) : null}
+            <Button
+              label="Enviar por WhatsApp"
+              icon="logo-whatsapp"
+              variant="whatsapp"
+              onPress={() => openWhatsApp(message)}
             />
-          </View>
-        ))}
-
-        {missing ? (
-          <Text style={styles.hint}>Indique al menos su nombre y el volumen estimado.</Text>
-        ) : null}
-
-        <Button
-          label="Enviar por WhatsApp"
-          icon="logo-whatsapp"
-          onPress={() => openWhatsApp(message)}
-        />
-        <Button
-          label="Enviar por correo"
-          icon="mail"
-          variant="outline"
-          onPress={() => emailCompany('Solicitud de cotización desde la app', message)}
-        />
-      </ScrollView>
+            <Button
+              label="Enviar por correo"
+              icon="mail"
+              variant="outline"
+              onPress={() => emailCompany('Solicitud de cotización desde la app', message)}
+            />
+          </Card>
+        </View>
+      </Screen>
     </KeyboardAvoidingView>
   );
 }
@@ -120,18 +137,18 @@ const styles = StyleSheet.create({
     backgroundColor: colors.background,
     flex: 1,
   },
-  content: {
+  body: {
     gap: spacing.md,
     padding: spacing.md,
-    paddingBottom: spacing.xl,
   },
-  intro: {
-    color: colors.textMuted,
-    fontSize: 15,
-    lineHeight: 22,
+  step: {
+    ...typography.kicker,
+    color: colors.primaryDark,
+    paddingBottom: spacing.xs,
   },
   group: {
     gap: spacing.sm,
+    paddingTop: spacing.sm,
   },
   label: {
     color: colors.text,
@@ -139,7 +156,7 @@ const styles = StyleSheet.create({
     fontWeight: '700',
   },
   input: {
-    backgroundColor: colors.surface,
+    backgroundColor: colors.surfaceAlt,
     borderColor: colors.border,
     borderRadius: radius.sm,
     borderWidth: 1,
@@ -151,8 +168,19 @@ const styles = StyleSheet.create({
     minHeight: 96,
     textAlignVertical: 'top',
   },
+  preview: {
+    backgroundColor: colors.surfaceAlt,
+    borderColor: colors.border,
+    borderRadius: radius.sm,
+    borderWidth: 1,
+    padding: spacing.md,
+  },
+  previewText: {
+    ...typography.small,
+    color: colors.textMuted,
+  },
   hint: {
-    color: colors.primary,
-    fontSize: 13,
+    ...typography.small,
+    color: colors.primaryDark,
   },
 });

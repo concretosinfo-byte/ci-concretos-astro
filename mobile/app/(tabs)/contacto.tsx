@@ -1,72 +1,66 @@
-import { ScrollView, StyleSheet, Text } from 'react-native';
+import { StyleSheet, Text, View } from 'react-native';
 
-import { Button, Card } from '../../components/ui';
+import { Button, Card, InfoRow, PageHeader, Screen, Section } from '../../components/ui';
 import { company } from '../../constants/company';
-import { colors, spacing } from '../../constants/theme';
+import { media } from '../../constants/media';
+import { colors, spacing, typography } from '../../constants/theme';
 import { callCompany, emailCompany, openWebsite, openWhatsApp } from '../../lib/contact';
 
 export default function ContactScreen() {
   return (
-    <ScrollView contentContainerStyle={styles.content}>
-      <Card>
-        <Text style={styles.title}>Contacto directo</Text>
-        <Text style={styles.text}>{company.location}</Text>
-        <Text style={styles.text}>{company.coverage}</Text>
-        <Text style={styles.text}>{company.hours}</Text>
-      </Card>
+    <Screen>
+      <PageHeader
+        image={media.contact}
+        kicker="Contacto"
+        title="Hablemos de su proyecto"
+        subtitle="Un asesor técnico responde con programación y valor estimado del despacho."
+      />
 
-      <Card>
-        <Text style={styles.title}>Teléfono</Text>
-        <Text style={styles.highlight}>{company.phoneDisplay}</Text>
-        <Button label="Llamar" icon="call" onPress={callCompany} />
+      <Section kicker="Canales directos" title="Atención comercial">
+        <Card>
+          <View style={styles.rows}>
+            <InfoRow icon="call" label="Teléfono / WhatsApp" value={company.phoneDisplay} />
+            <InfoRow icon="mail" label="Correo comercial" value={company.email} />
+            <InfoRow icon="location" label="Sede principal" value={company.location} />
+            <InfoRow icon="time" label="Horario de atención" value={company.hours} />
+          </View>
+        </Card>
+
         <Button
           label="Escribir por WhatsApp"
           icon="logo-whatsapp"
-          variant="outline"
+          variant="whatsapp"
           onPress={() => openWhatsApp('Hola, quiero hablar con un asesor técnico.')}
         />
-      </Card>
-
-      <Card>
-        <Text style={styles.title}>Correo</Text>
-        <Text style={styles.highlight}>{company.email}</Text>
+        <Button label="Llamar ahora" icon="call" onPress={callCompany} />
         <Button
           label="Enviar correo"
           icon="mail"
           variant="outline"
           onPress={() => emailCompany('Consulta desde la app CI Concretos')}
         />
-      </Card>
+        <Button label="Abrir sitio web" icon="globe-outline" variant="outline" onPress={openWebsite} />
+      </Section>
 
-      <Card>
-        <Text style={styles.title}>Sitio web</Text>
-        <Text style={styles.text}>{company.website}</Text>
-        <Button label="Abrir sitio web" icon="globe" variant="outline" onPress={openWebsite} />
-      </Card>
-    </ScrollView>
+      <Section kicker="Respaldo" title="Más de 20 años en el sector">
+        <Card>
+          <Text style={styles.text}>
+            Hemos participado en proyectos de infraestructura, edificaciones institucionales,
+            desarrollos industriales y obras privadas, con acompañamiento técnico permanente y
+            cobertura en todo el territorio nacional.
+          </Text>
+        </Card>
+      </Section>
+    </Screen>
   );
 }
 
 const styles = StyleSheet.create({
-  content: {
-    backgroundColor: colors.background,
+  rows: {
     gap: spacing.md,
-    padding: spacing.md,
-    paddingBottom: spacing.xl,
-  },
-  title: {
-    color: colors.text,
-    fontSize: 17,
-    fontWeight: '700',
   },
   text: {
+    ...typography.body,
     color: colors.textMuted,
-    fontSize: 14,
-    lineHeight: 20,
-  },
-  highlight: {
-    color: colors.primary,
-    fontSize: 18,
-    fontWeight: '700',
   },
 });
