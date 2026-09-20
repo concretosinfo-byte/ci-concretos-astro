@@ -113,7 +113,7 @@ export function InfoRow({
   return (
     <View style={styles.infoRow}>
       <View style={styles.infoIcon}>
-        <Ionicons name={icon} size={18} color={colors.brand} />
+        <Ionicons name={icon} size={18} color={colors.textOnDark} />
       </View>
       <View style={styles.infoText}>
         <Text style={styles.infoLabel}>{label}</Text>
@@ -147,13 +147,14 @@ type ButtonProps = {
   label: string;
   onPress: () => void;
   icon?: keyof typeof Ionicons.glyphMap;
-  variant?: 'primary' | 'whatsapp' | 'outline' | 'ghost';
+  variant?: 'primary' | 'whatsapp' | 'outline' | 'outlineLight' | 'ghost';
 };
 
 const buttonForeground: Record<NonNullable<ButtonProps['variant']>, string> = {
   primary: colors.onPrimary,
   whatsapp: '#FFFFFF',
   outline: colors.navy,
+  outlineLight: colors.textOnDark,
   ghost: colors.brand,
 };
 
@@ -168,6 +169,7 @@ export function Button({ label, onPress, icon, variant = 'primary' }: ButtonProp
         variant === 'primary' && styles.buttonPrimary,
         variant === 'whatsapp' && styles.buttonWhatsapp,
         variant === 'outline' && styles.buttonOutline,
+        variant === 'outlineLight' && styles.buttonOutlineLight,
         variant === 'ghost' && styles.buttonGhost,
         pressed && styles.pressed,
       ]}
@@ -196,8 +198,6 @@ const styles = StyleSheet.create({
   },
   pageHeader: {
     backgroundColor: colors.navy,
-    justifyContent: 'flex-end',
-    minHeight: 180,
     overflow: 'hidden',
   },
   pageHeaderImage: {
@@ -205,8 +205,8 @@ const styles = StyleSheet.create({
   },
   pageHeaderOverlay: {
     backgroundColor: colors.overlay,
-    flex: 1,
     justifyContent: 'flex-end',
+    minHeight: 180,
   },
   pageHeaderBody: {
     gap: spacing.xs,
@@ -222,11 +222,11 @@ const styles = StyleSheet.create({
   },
   kicker: {
     ...typography.kicker,
-    color: colors.primaryDark,
+    color: colors.brand,
   },
   kickerOnDark: {
     ...typography.kicker,
-    color: colors.primary,
+    color: colors.amber,
   },
   section: {
     gap: spacing.md,
@@ -241,9 +241,8 @@ const styles = StyleSheet.create({
     color: colors.text,
   },
   rule: {
-    backgroundColor: colors.primary,
-    borderRadius: radius.pill,
-    height: 4,
+    backgroundColor: colors.brand,
+    height: 3,
     marginTop: spacing.xs,
     width: 48,
   },
@@ -275,8 +274,8 @@ const styles = StyleSheet.create({
   },
   infoIcon: {
     alignItems: 'center',
-    backgroundColor: colors.brandSoft,
-    borderRadius: radius.pill,
+    backgroundColor: colors.navy,
+    borderRadius: radius.sm,
     height: 40,
     justifyContent: 'center',
     width: 40,
@@ -305,27 +304,27 @@ const styles = StyleSheet.create({
   },
   badge: {
     alignSelf: 'flex-start',
-    borderRadius: radius.pill,
+    borderRadius: radius.xs,
     paddingHorizontal: spacing.sm + 2,
     paddingVertical: 4,
   },
   badgeBrand: {
-    backgroundColor: colors.brandSoft,
+    backgroundColor: colors.navy,
   },
   badgeAmber: {
-    backgroundColor: colors.primarySoft,
+    backgroundColor: colors.amber,
   },
   badgeText: {
     fontSize: 11,
-    fontWeight: '800',
-    letterSpacing: 0.8,
+    fontWeight: '700',
+    letterSpacing: 1,
     textTransform: 'uppercase',
   },
   badgeTextBrand: {
-    color: colors.brand,
+    color: colors.textOnDark,
   },
   badgeTextAmber: {
-    color: colors.primaryDark,
+    color: '#FFFFFF',
   },
   button: {
     alignItems: 'center',
@@ -333,8 +332,9 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     gap: spacing.sm,
     justifyContent: 'center',
-    paddingHorizontal: spacing.md,
-    paddingVertical: 15,
+    minHeight: 48,
+    paddingHorizontal: spacing.lg,
+    paddingVertical: 12,
   },
   buttonPrimary: {
     backgroundColor: colors.primary,
@@ -342,18 +342,25 @@ const styles = StyleSheet.create({
   buttonWhatsapp: {
     backgroundColor: colors.whatsapp,
   },
+  buttonOutlineLight: {
+    backgroundColor: 'transparent',
+    borderColor: colors.textOnDark,
+    borderWidth: 1.5,
+  },
   buttonOutline: {
-    backgroundColor: colors.surface,
-    borderColor: colors.border,
-    borderWidth: 1,
+    backgroundColor: 'transparent',
+    borderColor: colors.navy,
+    borderWidth: 1.5,
   },
   buttonGhost: {
     backgroundColor: 'transparent',
     paddingVertical: spacing.sm,
   },
   buttonLabel: {
-    fontSize: 15,
-    fontWeight: '700',
+    fontSize: 14,
+    fontWeight: '600',
+    letterSpacing: 0.6,
+    textTransform: 'uppercase',
   },
   pressed: {
     opacity: 0.85,

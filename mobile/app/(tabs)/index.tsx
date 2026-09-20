@@ -41,7 +41,7 @@ export default function HomeScreen() {
                 openWhatsApp('Hola, quiero cotizar concreto premezclado para mi proyecto.')
               }
             />
-              <Button label="Llamar ahora" icon="call" variant="outline" onPress={callCompany} />
+              <Button label="Llamar ahora" icon="call" variant="outlineLight" onPress={callCompany} />
             </View>
           </View>
         </View>
@@ -87,7 +87,7 @@ export default function HomeScreen() {
           {highlights.map((item) => (
             <View key={item.title} style={styles.highlight}>
               <View style={styles.highlightIcon}>
-                <Ionicons name={item.icon} size={20} color={colors.brand} />
+                <Ionicons name={item.icon} size={20} color={colors.navy} />
               </View>
               <Text style={styles.highlightTitle}>{item.title}</Text>
               <Text style={styles.highlightText}>{item.text}</Text>
@@ -151,8 +151,6 @@ export default function HomeScreen() {
 const styles = StyleSheet.create({
   hero: {
     backgroundColor: colors.navy,
-    justifyContent: 'flex-end',
-    minHeight: 470,
     overflow: 'hidden',
   },
   heroImage: {
@@ -160,8 +158,8 @@ const styles = StyleSheet.create({
   },
   heroOverlay: {
     backgroundColor: colors.overlay,
-    flex: 1,
     justifyContent: 'flex-end',
+    minHeight: 470,
   },
   heroBody: {
     gap: spacing.sm,
@@ -182,7 +180,7 @@ const styles = StyleSheet.create({
   },
   heroKicker: {
     ...typography.kicker,
-    color: colors.primary,
+    color: colors.amber,
   },
   heroTitle: {
     ...typography.display,
@@ -197,30 +195,32 @@ const styles = StyleSheet.create({
     gap: spacing.sm,
   },
   statsBand: {
-    backgroundColor: colors.surface,
-    borderBottomColor: colors.border,
-    borderBottomWidth: 1,
+    backgroundColor: colors.navySoft,
     flexDirection: 'row',
     flexWrap: 'wrap',
-    paddingHorizontal: spacing.md,
-    paddingVertical: spacing.lg,
+    gap: spacing.sm,
+    padding: spacing.md,
   },
   stat: {
-    borderLeftColor: colors.primary,
-    borderLeftWidth: 3,
-    flexBasis: '50%',
+    backgroundColor: colors.navy,
+    borderTopColor: colors.brand,
+    borderTopWidth: 3,
+    flexBasis: '47%',
+    flexGrow: 1,
     gap: 2,
-    paddingHorizontal: spacing.md,
-    paddingVertical: spacing.sm,
+    padding: spacing.md,
   },
   statValue: {
-    color: colors.navy,
-    fontSize: 26,
-    fontWeight: '800',
+    color: colors.textOnDark,
+    fontSize: 32,
+    fontWeight: '700',
+    letterSpacing: -0.6,
+    lineHeight: 36,
   },
   statLabel: {
-    ...typography.small,
-    color: colors.textMuted,
+    ...typography.kicker,
+    color: colors.textSubtle,
+    fontSize: 11,
   },
   cardTitle: {
     ...typography.cardTitle,
@@ -258,8 +258,10 @@ const styles = StyleSheet.create({
   },
   highlightIcon: {
     alignItems: 'center',
-    backgroundColor: colors.brandSoft,
-    borderRadius: radius.pill,
+    backgroundColor: colors.surfaceAlt,
+    borderColor: colors.border,
+    borderRadius: radius.sm,
+    borderWidth: 1,
     height: 38,
     justifyContent: 'center',
     marginBottom: spacing.xs,
@@ -276,14 +278,16 @@ const styles = StyleSheet.create({
   },
   ctaBand: {
     backgroundColor: colors.navy,
+    borderLeftColor: colors.amber,
+    borderLeftWidth: 4,
+    borderRadius: radius.md,
     gap: spacing.sm,
     marginHorizontal: spacing.md,
-    borderRadius: radius.lg,
     padding: spacing.lg,
   },
   ctaKicker: {
     ...typography.kicker,
-    color: colors.primary,
+    color: colors.amber,
   },
   ctaTitle: {
     ...typography.title,
@@ -327,7 +331,7 @@ const styles = StyleSheet.create({
   footerTitle: {
     color: colors.text,
     fontSize: 16,
-    fontWeight: '800',
+    fontWeight: '700',
   },
   footerText: {
     ...typography.small,

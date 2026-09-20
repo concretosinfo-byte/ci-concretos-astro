@@ -16,7 +16,7 @@ export default function ServicesScreen() {
   return (
     <Screen>
       <PageHeader
-        image={media.hero}
+        image={media.steel}
         kicker="Servicios"
         title="Suministro, obra civil y estructuras metálicas"
         subtitle="Modelo integral que prioriza cumplimiento y control de calidad en cada fase del proyecto."

@@ -7,14 +7,18 @@
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "userInterfaceStyle": "light",
-    "primaryColor": "#F59E0B",
+    "primaryColor": "#D32F2F",
     "description": "Concreto premezclado, obras civiles y estructuras metálicas con cobertura nacional en Colombia.",
     "ios": {
       "supportsTablet": true,
       "bundleIdentifier": "com.ciconcretos.app",
       "infoPlist": {
         "CFBundleDisplayName": "CI Concretos",
-        "LSApplicationQueriesSchemes": ["tel", "mailto", "whatsapp"]
+        "LSApplicationQueriesSchemes": [
+          "tel",
+          "mailto",
+          "whatsapp"
+        ]
       }
     },
     "android": {
@@ -34,11 +38,15 @@
       "name": "CI Concretos SAS",
       "shortName": "CI Concretos",
       "themeColor": "#FFFFFF",
-      "backgroundColor": "#F5F7FA",
+      "backgroundColor": "#F8FAFC",
       "display": "standalone",
       "lang": "es-CO"
     },
-    "plugins": ["expo-router", "expo-status-bar"],
+    "plugins": [
+      "expo-router",
+      "expo-status-bar",
+      "expo-font"
+    ],
     "experiments": {
       "typedRoutes": true
     }

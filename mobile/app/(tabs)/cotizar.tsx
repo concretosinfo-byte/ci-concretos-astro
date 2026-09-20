@@ -62,7 +62,7 @@ export default function QuoteScreen() {
     >
       <Screen keyboardShouldPersistTaps="handled">
         <PageHeader
-          image={media.contact}
+          image={media.civil}
           kicker="Cotizador"
           title="Solicite su cotización técnica"
           subtitle="Un asesor responde con programación de despacho y valor estimado."
@@ -143,7 +143,7 @@ const styles = StyleSheet.create({
   },
   step: {
     ...typography.kicker,
-    color: colors.primaryDark,
+    color: colors.amber,
     paddingBottom: spacing.xs,
   },
   group: {
@@ -156,13 +156,15 @@ const styles = StyleSheet.create({
     fontWeight: '700',
   },
   input: {
-    backgroundColor: colors.surfaceAlt,
-    borderColor: colors.border,
+    backgroundColor: colors.surface,
+    borderColor: colors.borderStrong,
     borderRadius: radius.sm,
     borderWidth: 1,
     color: colors.text,
-    fontSize: 15,
-    padding: spacing.md,
+    fontSize: 16,
+    minHeight: 48,
+    paddingHorizontal: spacing.md,
+    paddingVertical: 12,
   },
   inputMultiline: {
     minHeight: 96,
@@ -181,6 +183,6 @@ const styles = StyleSheet.create({
   },
   hint: {
     ...typography.small,
-    color: colors.primaryDark,
+    color: colors.amber,
   },
 });

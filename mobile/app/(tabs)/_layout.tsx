@@ -19,8 +19,8 @@ export default function TabsLayout() {
       screenOptions={{
         headerStyle: { backgroundColor: colors.surface },
         headerTintColor: colors.navy,
-        headerTitleStyle: { fontWeight: '800' },
         headerShadowVisible: false,
+        headerTitleStyle: { fontWeight: '700', letterSpacing: -0.3 },
         headerRight: () => <BrandMark />,
         sceneStyle: { backgroundColor: colors.background },
         tabBarActiveTintColor: colors.brand,

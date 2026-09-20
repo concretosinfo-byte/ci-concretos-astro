@@ -11,7 +11,7 @@ export default function CoverageScreen() {
   return (
     <Screen>
       <PageHeader
-        image={media.contact}
+        image={media.hero}
         kicker="Cobertura"
         title="Operación coordinada en todo el país"
         subtitle="Capacidad logística para atender múltiples ciudades con programación estructurada."
@@ -21,7 +21,7 @@ export default function CoverageScreen() {
         <View style={styles.grid}>
           {cities.map((city) => (
             <View key={city} style={styles.city}>
-              <Ionicons name="location" size={16} color={colors.primary} />
+              <Ionicons name="location" size={16} color={colors.amber} />
               <Text style={styles.cityName}>{city}</Text>
             </View>
           ))}

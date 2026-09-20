@@ -10,7 +10,7 @@ if ('serviceWorker' in navigator) {
 `;
 
 const baseStyles = `
-html, body { background-color: #F5F7FA; }
+html, body { background-color: #F8FAFC; }
 body {
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
   -webkit-font-smoothing: antialiased;

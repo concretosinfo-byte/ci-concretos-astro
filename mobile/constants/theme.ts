@@ -1,26 +1,34 @@
 import { Platform, type TextStyle, type ViewStyle } from 'react-native';
 
+// Tokens del design system "Structural Heavy-Industrial":
+// vermellón para acciones, navy estructural, ámbar de maquinaria y neutros slate.
 export const colors = {
-  background: '#F5F7FA',
+  background: '#F8FAFC',
   surface: '#FFFFFF',
-  surfaceAlt: '#EEF2F7',
-  border: '#DCE3EC',
+  surfaceAlt: '#F1F5F9',
+  border: '#E2E8F0',
+  borderStrong: '#CBD5E1',
   navy: '#0F172A',
   navySoft: '#1E293B',
-  brand: '#1D4ED8',
-  brandSoft: '#E8EEFC',
-  primary: '#F59E0B',
-  primaryDark: '#B45309',
-  primarySoft: '#FEF3C7',
-  text: '#0F172A',
-  textMuted: '#51637A',
+  brand: '#D32F2F',
+  brandDark: '#B71C1C',
+  brandSoft: '#FFDAD6',
+  primary: '#D32F2F',
+  primaryDark: '#B71C1C',
+  primarySoft: '#FFDAD6',
+  amber: '#D97706',
+  amberSoft: '#FFDCC3',
+  text: '#0B1C30',
+  textMuted: '#475569',
+  textSubtle: '#94A3B8',
   textOnDark: '#F8FAFC',
   textOnDarkMuted: '#CBD5E1',
-  onPrimary: '#1F1300',
-  whatsapp: '#25D366',
+  onPrimary: '#FFFFFF',
+  whatsapp: '#059669',
   success: '#059669',
-  overlay: 'rgba(9, 18, 33, 0.66)',
-  overlaySoft: 'rgba(9, 18, 33, 0.45)',
+  successSoft: '#ECFDF5',
+  overlay: 'rgba(15, 23, 42, 0.7)',
+  overlaySoft: 'rgba(15, 23, 42, 0.5)',
 };
 
 export const spacing = {
@@ -33,65 +41,70 @@ export const spacing = {
 };
 
 export const radius = {
-  sm: 10,
-  md: 16,
-  lg: 24,
-  pill: 999,
+  xs: 3,
+  sm: 4,
+  md: 8,
+  lg: 12,
+  pill: 4,
 };
 
 export const typography = {
   kicker: {
     fontSize: 12,
-    fontWeight: '800',
-    letterSpacing: 1.6,
+    fontWeight: '700',
+    letterSpacing: 1,
+    lineHeight: 16,
     textTransform: 'uppercase',
   } as TextStyle,
   display: {
-    fontSize: 30,
-    fontWeight: '800',
-    lineHeight: 38,
+    fontSize: 32,
+    fontWeight: '700',
+    lineHeight: 40,
     letterSpacing: -0.6,
   } as TextStyle,
   title: {
-    fontSize: 22,
-    fontWeight: '800',
-    lineHeight: 29,
+    fontSize: 24,
+    fontWeight: '700',
+    lineHeight: 32,
     letterSpacing: -0.3,
   } as TextStyle,
   cardTitle: {
-    fontSize: 17,
-    fontWeight: '700',
-    lineHeight: 23,
+    fontSize: 20,
+    fontWeight: '600',
+    lineHeight: 28,
   } as TextStyle,
   body: {
-    fontSize: 15,
-    lineHeight: 23,
+    fontSize: 16,
+    lineHeight: 24,
   } as TextStyle,
   small: {
-    fontSize: 13,
-    lineHeight: 19,
+    fontSize: 14,
+    lineHeight: 20,
+    letterSpacing: 0.1,
   } as TextStyle,
 };
 
 export const shadows: Record<'card' | 'raised', ViewStyle> = {
   card: Platform.select({
-    web: { boxShadow: '0 10px 30px rgba(15, 23, 42, 0.08)' } as ViewStyle,
+    web: { boxShadow: '0 1px 3px 0 rgba(15, 23, 42, 0.05)' } as ViewStyle,
     default: {
       shadowColor: '#0F172A',
-      shadowOpacity: 0.1,
-      shadowRadius: 16,
-      shadowOffset: { width: 0, height: 8 },
-      elevation: 3,
+      shadowOpacity: 0.05,
+      shadowRadius: 3,
+      shadowOffset: { width: 0, height: 1 },
+      elevation: 1,
     },
   }) as ViewStyle,
   raised: Platform.select({
-    web: { boxShadow: '0 16px 40px rgba(15, 23, 42, 0.16)' } as ViewStyle,
+    web: {
+      boxShadow: '0 10px 25px -5px rgba(15, 23, 42, 0.08), 0 8px 10px -6px rgba(15, 23, 42, 0.04)',
+    } as ViewStyle,
     default: {
       shadowColor: '#0F172A',
-      shadowOpacity: 0.18,
-      shadowRadius: 24,
-      shadowOffset: { width: 0, height: 12 },
-      elevation: 6,
+      shadowOpacity: 0.08,
+      shadowRadius: 12,
+      shadowOffset: { width: 0, height: 8 },
+      elevation: 3,
     },
   }) as ViewStyle,
 };
